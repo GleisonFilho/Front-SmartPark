@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "smartpark-mobile",
+    "slug": "smartpark-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "updates": {
+  "enabled": false,
+  "checkAutomatically": "ON_LOAD"
+},
+
+
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+
+    "ios": {
+      "supportsTablet": true
+    },
+
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": false
+    },
+
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
