@@ -7,21 +7,18 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "updates": {
-  "enabled": false,
-  "checkAutomatically": "ON_LOAD"
-},
-
-
+      "enabled": false,
+      "checkAutomatically": "ON_LOAD",
+      "url": "https://u.expo.dev/fbcc8f53-746b-4d47-bf83-95e820a33e42"
+    },
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
     "ios": {
       "supportsTablet": true
     },
-
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -29,9 +26,17 @@
       },
       "edgeToEdgeEnabled": false
     },
-
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fbcc8f53-746b-4d47-bf83-95e820a33e42"
+      }
+    },
+    "owner": "gleisonfilho",
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }
