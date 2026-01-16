@@ -1,9 +1,6 @@
 import axios from "axios";
 
-// ⚠️ IMPORTANTE: Substitua pelo IP da máquina onde o backend está rodando
-// Se estiver usando emulador Android: 10.0.2.2
-// Se estiver usando celular físico: O IP da sua rede local (ex: 192.168.1.14)
-const BASE_URL = "http://192.168.1.13:8080"; 
+const BASE_URL = "https://estacionamento-rotativo-l65y.onrender.com"; 
 
 export const api = axios.create({
   baseURL: BASE_URL,
