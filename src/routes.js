@@ -10,6 +10,8 @@ import Vagas from './screens/Vagas';
 import Veiculos from './screens/Veiculos';
 import Checkin from './screens/Checkin';
 import Checkout from './screens/Checkout';
+import Login from './screens/login';
+import Cadastro from './screens/Cadastro';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -58,7 +60,9 @@ function TabNavigator() {
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Login'>
+        <Stack.Screen name='Login' component={Login}/>
+        <Stack.Screen name='Cadastro' component={Cadastro}/>
         <Stack.Screen name="Main" component={TabNavigator} />
         <Stack.Screen name="Checkin" component={Checkin} />
       </Stack.Navigator>
