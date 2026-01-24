@@ -8,33 +8,26 @@
     "userInterfaceStyle": "light",
     "updates": {
       "enabled": false,
-      "checkAutomatically": "ON_LOAD",
-      "url": "https://u.expo.dev/fbcc8f53-746b-4d47-bf83-95e820a33e42"
+      "platforms": ["android"]
+
     },
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": false
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      "package": "com.gleisonfilho.smartparkmobile"
     },
     "extra": {
       "eas": {
         "projectId": "fbcc8f53-746b-4d47-bf83-95e820a33e42"
       }
     },
-    "owner": "gleisonfilho",
     "runtimeVersion": "1.0.0"
   }
 }
