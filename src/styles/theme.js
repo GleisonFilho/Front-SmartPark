@@ -8,7 +8,7 @@ export const colors = {
   text: '#1a1a1a',         // Preto Suave
   textLight: '#ffffff',    // Branco Texto
   muted: '#6c757d',        // Cinza Muted
-  border: '#e9ecef',       // Borda Suave
+  border: '#e9ecef',       
 };
 
 export const spacing = {
