@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, TouchableOpacity, FlatList, Alert, StyleSheet, RefreshControl, SafeAreaView } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, normalizeBoolean } from "../services/api";
 import { globalStyles } from "../styles/globalStyles";
 import { colors, spacing, radius } from "../styles/theme";
@@ -7,6 +8,7 @@ import { colors, spacing, radius } from "../styles/theme";
 export default function Checkout() {
   const [ativas, setAtivas] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const carregar = async () => {
     try {
@@ -52,7 +54,7 @@ export default function Checkout() {
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <View style={globalStyles.header}>
+      <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
         <Text style={globalStyles.headerTitle}>Checkout</Text>
       </View>
 

@@ -18,12 +18,13 @@ export default function Login({ navigation }) {
 
         setLoading(true);
         try {
-            await api.post("/auth/login", {
+            const response = await api.post("/auth/login", {
                 email,
                 senha
             });
 
-            navigation.replace("Main");
+            const { role } = response.data;
+            navigation.replace("Main", { role });
 
         } catch (error) {
             Alert.alert(

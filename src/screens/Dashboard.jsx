@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, RefreshControl, SafeAreaView, StatusBar } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, normalizeBoolean } from "../services/api";
 import { globalStyles } from "../styles/globalStyles";
 import { colors, spacing, radius } from "../styles/theme";
@@ -8,6 +9,7 @@ export default function Dashboard({ navigation }) {
   const [stats, setStats] = useState({ total: 0, ocupadas: 0, livres: 0 });
   const [ativas, setAtivas] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const carregarDados = async () => {
     try {
@@ -46,7 +48,7 @@ export default function Dashboard({ navigation }) {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <StatusBar barStyle="light-content" />
-      <View style={globalStyles.header}>
+      <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
         <Text style={globalStyles.headerTitle}>SmartPark</Text>
         <Text style={{color: colors.muted, fontSize: 14}}>Gerenciamento de Estacionamento</Text>
       </View>

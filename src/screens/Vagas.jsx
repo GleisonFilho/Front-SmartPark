@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, RefreshControl, SafeAreaView } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, normalizeBoolean } from "../services/api";
 import { globalStyles } from "../styles/globalStyles";
 import { colors, spacing, radius } from "../styles/theme";
@@ -8,6 +9,7 @@ export default function Vagas() {
   const [codigo, setCodigo] = useState("");
   const [vagas, setVagas] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const carregarVagas = async () => {
     try {
@@ -45,7 +47,7 @@ export default function Vagas() {
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <View style={globalStyles.header}>
+      <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
         <Text style={globalStyles.headerTitle}>Vagas</Text>
       </View>
 

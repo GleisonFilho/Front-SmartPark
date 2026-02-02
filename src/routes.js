@@ -12,11 +12,16 @@ import Checkin from './screens/Checkin';
 import Checkout from './screens/Checkout';
 import Login from './screens/login';
 import Cadastro from './screens/Cadastro';
+import Mapa from './screens/Mapa';
+import AdminDashboard from './screens/AdminDashboard';
+import AdminCadastroEstacionamento from './screens/AdminCadastroEstacionamento';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function TabNavigator() {
+function TabNavigator({ route }) {
+  const { role } = route.params || { role: 'USER' };
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -32,15 +37,14 @@ function TabNavigator() {
         tabBarIcon: ({ focused, color }) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === 'Home' || route.name === 'Admin') {
             iconName = focused ? 'home' : 'home-outline';
-
+          } else if (route.name === 'Mapa') {
+            iconName = focused ? 'map' : 'map-outline';
           } else if (route.name === 'Vagas') {
-            iconName = focused ? 'car' : 'pin-outline';
-
+            iconName = focused ? 'pin' : 'pin-outline';
           } else if (route.name === 'Veículos') {
             iconName = focused ? 'car' : 'car-outline';
-
           } else if (route.name === 'Checkout') {
             iconName = focused ? 'log-out' : 'log-out-outline';
           }
@@ -49,7 +53,12 @@ function TabNavigator() {
         }
       })}
     >
-      <Tab.Screen name="Home" component={Dashboard} />
+      {role === 'ADMIN' ? (
+        <Tab.Screen name="Admin" component={AdminDashboard} />
+      ) : (
+        <Tab.Screen name="Home" component={Dashboard} />
+      )}
+      <Tab.Screen name="Mapa" component={Mapa} />
       <Tab.Screen name="Vagas" component={Vagas} />
       <Tab.Screen name="Veículos" component={Veiculos} />
       <Tab.Screen name="Checkout" component={Checkout} />
@@ -65,6 +74,7 @@ export default function Routes() {
         <Stack.Screen name='Cadastro' component={Cadastro}/>
         <Stack.Screen name="Main" component={TabNavigator} />
         <Stack.Screen name="Checkin" component={Checkin} />
+        <Stack.Screen name="AdminCadastroEstacionamento" component={AdminCadastroEstacionamento} />
       </Stack.Navigator>
     </NavigationContainer>
   );

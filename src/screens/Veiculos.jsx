@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, StyleSheet, RefreshControl, SafeAreaView } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, normalizeBoolean } from "../services/api";
 import { globalStyles } from "../styles/globalStyles";
 import { colors, spacing, radius } from "../styles/theme";
@@ -8,6 +9,7 @@ export default function Veiculos() {
   const [form, setForm] = useState({ placa: "", modelo: "", cor: "", tipo: "CARRO" });
   const [veiculos, setVeiculos] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const carregarVeiculos = async () => {
     try {
@@ -35,7 +37,7 @@ export default function Veiculos() {
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <View style={globalStyles.header}>
+      <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
         <Text style={globalStyles.headerTitle}>Veículos</Text>
       </View>
 
