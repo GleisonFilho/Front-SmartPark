@@ -8,8 +8,11 @@
     "userInterfaceStyle": "light",
     "updates": {
       "enabled": false,
-      "platforms": ["android"]
-
+      "platforms": [
+        "android",
+        "android"
+      ],
+      "url": "https://u.expo.dev/fbcc8f53-746b-4d47-bf83-95e820a33e42"
     },
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -17,17 +20,28 @@
       "backgroundColor": "#ffffff"
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAIk64FvhdIib7FuSO0fXX6QVowrT1mXy8"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.gleisonfilho.smartparkmobile"
+      
     },
     "extra": {
       "eas": {
         "projectId": "fbcc8f53-746b-4d47-bf83-95e820a33e42"
       }
     },
-    "runtimeVersion": "1.0.0"
+    "runtimeVersion": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.gleisonfilho.smartparkmobile"
+    }
   }
+
+  
 }
