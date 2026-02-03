@@ -1,13 +1,13 @@
 export const colors = {
-  primary: '#2f6fed',      // Azul Moderno
-  secondary: '#0b1b33',    // Azul Escuro Profundo
-  accent: '#2fa85a',       // Verde Sucesso
-  danger: '#e74c3c',       // Vermelho Erro
-  background: '#f8f9fa',   // Cinza muito claro
-  card: '#ffffff',         // Branco
-  text: '#1a1a1a',         // Preto Suave
-  textLight: '#ffffff',    // Branco Texto
-  muted: '#6c757d',        // Cinza Muted
+  primary: '#2f6fed',     
+  secondary: '#0b1b33',   
+  accent: '#2fa85a',       
+  danger: '#e74c3c',       
+  background: '#f8f9fa',   
+  card: '#ffffff',         
+  text: '#1a1a1a',         
+  textLight: '#ffffff',    
+  muted: '#6c757d',       
   border: '#e9ecef',       
 };
 

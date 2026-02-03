@@ -112,7 +112,7 @@ export default function Mapa({ navigation }) {
       >
         {estacionamentos.map((est) => {
           console.log('Renderizando estacionamento:', est.id, est.nome, est.endereco, est.valorHora);
-          const markerTitle = est.nome.length > 20 ? est.nome.substring(0, 17) + '...' : est.nome;
+          const markerTitle = est.nome.length > 20 ? est.nome.substring(0, 60) + '.' : est.nome;
           return (
             <Marker
               key={est.id}
