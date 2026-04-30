@@ -3,12 +3,16 @@ import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView,
 import { globalStyles } from "../styles/globalStyles";
 import { useState } from "react";
 import { colors, spacing, radius } from "../styles/theme";
-import api from "../services/api";
+
+// Importamos o hook de autenticação
+import { useAuth } from "../context/AuthContext";
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [loading, setLoading] = useState(false);
+    
+    // Pegamos a função signIn e o estado de loading do contexto
+    const { signIn, loading } = useAuth();
 
     const handleLogin = async () => {
         if (!email || !senha) {
@@ -16,24 +20,9 @@ export default function Login({ navigation }) {
             return;
         }
 
-        setLoading(true);
-        try {
-            const response = await api.post("/auth/login", {
-                email,
-                senha
-            });
-
-            const { role } = response.data;
-            navigation.replace("Main", { role });
-
-        } catch (error) {
-            Alert.alert(
-                "Erro",
-                error.response?.data?.message || "Email ou senha inválidos"
-            );
-        } finally {
-            setLoading(false);
-        }
+        // Chamamos o login do contexto
+        // Note que não precisamos mais de navigation.navigate aqui!
+        await signIn(email, senha);
     };
 
     return (
@@ -87,10 +76,10 @@ export default function Login({ navigation }) {
         </SafeAreaView>
     );
 }
+
+// Os estilos (styles) permanecem exatamente os mesmos que você já tem.
 const styles = StyleSheet.create({
-    scrollContainer: {
-        flexGrow: 1,
-    },
+    scrollContainer: { flexGrow: 1 },
     logoConteiner: {
         flex: 0.35,
         justifyContent: "flex-end",
@@ -99,34 +88,16 @@ const styles = StyleSheet.create({
         paddingTop: spacing.lg,
         paddingBottom: spacing.xl,
     },
-    imgLogo: {
-        width: 100,
-        height: 100,
-        borderRadius: 20,
-        marginBottom: spacing.md,
-    },
-    logoTitle: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: colors.textLight,
-    },
-    logoSubtitle: {
-        fontSize: 13,
-        color: "rgba(255, 255, 255, 0.7)",
-        marginTop: spacing.xs,
-    },
+    imgLogo: { width: 100, height: 100, borderRadius: 20, marginBottom: spacing.md },
+    logoTitle: { fontSize: 28, fontWeight: 'bold', color: colors.textLight },
+    logoSubtitle: { fontSize: 13, color: "rgba(255, 255, 255, 0.7)", marginTop: spacing.xs },
     inputConteiner: {
         flex: 0.65,
         paddingHorizontal: spacing.lg,
         paddingTop: spacing.xl,
         backgroundColor: colors.background,
     },
-    loginTitle: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        color: colors.secondary,
-        marginBottom: spacing.sm,
-    },
+    loginTitle: { fontSize: 26, fontWeight: 'bold', color: colors.secondary, marginBottom: spacing.sm },
     input: {
         backgroundColor: colors.card,
         borderRadius: radius.md,
@@ -153,4 +124,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-
