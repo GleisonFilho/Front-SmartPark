@@ -15,7 +15,9 @@ export default function Veiculos() {
     try {
       const response = await api.get("/veiculos");
       setVeiculos(response.data.map(v => ({ ...v, ativo: normalizeBoolean(v.ativo) })));
-    } catch (e) { console.log(e); }
+    } catch (e) { 
+      console.log("Erro ao carregar veículos:", e); 
+    }
   };
 
   const onRefresh = useCallback(() => {
@@ -24,33 +26,22 @@ export default function Veiculos() {
   }, []);
 
   const cadastrar = async () => {
-<<<<<<< HEAD
     if (!form.placa || !form.modelo) {
       return Alert.alert("Atenção", "Preencha os campos obrigatórios");
     }
-=======
-    if (!form.placa || !form.modelo) return Alert.alert("Atenção", "Preencha os campos obrigatórios");
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     try {
-      await api.post("/veiculos", { ...form, placa: form.placa.toUpperCase() });
+      await api.post("/veiculos", { ...form, placa: form.placa.toUpperCase().trim() });
       setForm({ placa: "", modelo: "", cor: "", tipo: "CARRO" });
       carregarVeiculos();
-      Alert.alert("Sucesso", "Veículo cadastrado");
-<<<<<<< HEAD
-    } catch (e) {
-      Alert.alert("Erro", "Falha ao cadastrar");
+      Alert.alert("Sucesso", "Veículo cadastrado com sucesso!");
+    } catch (e) { 
+      Alert.alert("Erro", "Falha ao cadastrar veículo."); 
     }
   };
 
-  useEffect(() => {
-    carregarVeiculos();
+  useEffect(() => { 
+    carregarVeiculos(); 
   }, []);
-=======
-    } catch (e) { Alert.alert("Erro", "Falha ao cadastrar"); }
-  };
-
-  useEffect(() => { carregarVeiculos(); }, []);
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
@@ -60,10 +51,8 @@ export default function Veiculos() {
 
       <View style={globalStyles.container}>
         <View style={globalStyles.card}>
-<<<<<<< HEAD
-          
           <TextInput
-            placeholder="Placa"
+            placeholder="Placa (obrigatório)"
             placeholderTextColor="#9CA3AF"
             value={form.placa}
             autoCapitalize="characters"
@@ -72,7 +61,7 @@ export default function Veiculos() {
           />
 
           <TextInput
-            placeholder="Modelo"
+            placeholder="Modelo (obrigatório)"
             placeholderTextColor="#9CA3AF"
             value={form.modelo}
             onChangeText={t => setForm({ ...form, modelo: t })}
@@ -86,35 +75,22 @@ export default function Veiculos() {
             onChangeText={t => setForm({ ...form, cor: t })}
             style={[globalStyles.input, styles.inputFix]}
           />
-
+          
           <View style={styles.tipoRow}>
             {["CARRO", "MOTO"].map(t => (
-              <TouchableOpacity
-                key={t}
-                onPress={() => setForm({ ...form, tipo: t })}
-                style={[
-                  styles.tipoBtn,
-                  form.tipo === t && styles.tipoBtnActive
-                ]}
+              <TouchableOpacity 
+                key={t} 
+                onPress={() => setForm({ ...form, tipo: t })} 
+                style={[styles.tipoBtn, form.tipo === t && styles.tipoBtnActive]}
               >
-                <Text
+                <Text 
                   style={[
-                    styles.tipoBtnText,
+                    styles.tipoBtnText, 
                     form.tipo === t && styles.tipoBtnTextActive
                   ]}
                 >
                   {t}
                 </Text>
-=======
-          <TextInput placeholder="Placa" value={form.placa} onChangeText={t => setForm({...form, placa: t})} autoCapitalize="characters" style={globalStyles.input} />
-          <TextInput placeholder="Modelo" value={form.modelo} onChangeText={t => setForm({...form, modelo: t})} style={globalStyles.input} />
-          <TextInput placeholder="Cor" value={form.cor} onChangeText={t => setForm({...form, cor: t})} style={globalStyles.input} />
-          
-          <View style={styles.tipoRow}>
-            {["CARRO", "MOTO"].map(t => (
-              <TouchableOpacity key={t} onPress={() => setForm({...form, tipo: t})} style={[styles.tipoBtn, form.tipo === t && styles.tipoBtnActive]}>
-                <Text style={[styles.tipoBtnText, form.tipo === t && styles.tipoBtnTextActive]}>{t}</Text>
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
               </TouchableOpacity>
             ))}
           </View>
@@ -127,26 +103,14 @@ export default function Veiculos() {
         <FlatList
           data={veiculos}
           keyExtractor={(item) => String(item.id)}
-<<<<<<< HEAD
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-=======
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
           renderItem={({ item }) => (
             <View style={globalStyles.card}>
               <View style={styles.veiculoHeader}>
                 <Text style={styles.veiculoPlaca}>{item.placa}</Text>
                 <Text style={styles.veiculoTipo}>{item.tipo}</Text>
               </View>
-<<<<<<< HEAD
-              <Text style={styles.veiculoInfo}>
-                {item.modelo} • {item.cor}
-              </Text>
-=======
               <Text style={styles.veiculoInfo}>{item.modelo} • {item.cor}</Text>
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
             </View>
           )}
         />
@@ -156,73 +120,52 @@ export default function Veiculos() {
 }
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
   inputFix: {
-    color: "#111827",           // 🔑 TEXTO VISÍVEL NO APK
-    backgroundColor: "#FFFFFF", // 🔑 FUNDO
+    color: "#111827",           // 🔑 Garante texto legível
+    backgroundColor: "#FFFFFF", // 🔑 Evita input transparente
   },
-
-  tipoRow: {
-    flexDirection: "row",
-    marginBottom: spacing.md
+  tipoRow: { 
+    flexDirection: "row", 
+    marginBottom: spacing.md 
   },
-
-  tipoBtn: {
-    flex: 1,
-    padding: 12,
-    alignItems: "center",
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    marginHorizontal: 4
+  tipoBtn: { 
+    flex: 1, 
+    padding: 12, 
+    alignItems: "center", 
+    borderRadius: radius.md, 
+    borderWidth: 1, 
+    borderColor: colors.border, 
+    marginHorizontal: 4 
   },
-
-  tipoBtnActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary
+  tipoBtnActive: { 
+    backgroundColor: colors.primary, 
+    borderColor: colors.primary 
   },
-
-  tipoBtnText: {
-    color: colors.text,
-    fontWeight: "bold"
+  tipoBtnText: { 
+    color: colors.text, 
+    fontWeight: "bold" 
   },
-
-  tipoBtnTextActive: {
-    color: colors.textLight
+  tipoBtnTextActive: { 
+    color: colors.textLight 
   },
-
-  veiculoHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 4
+  veiculoHeader: { 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    marginBottom: 4 
   },
-
-  veiculoPlaca: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: colors.secondary
+  veiculoPlaca: { 
+    fontSize: 18, 
+    fontWeight: "bold", 
+    color: colors.secondary 
   },
-
-  veiculoTipo: {
-    fontSize: 12,
-    color: colors.primary,
-    fontWeight: "bold"
+  veiculoTipo: { 
+    fontSize: 12, 
+    color: colors.primary, 
+    fontWeight: "bold" 
   },
-
-  veiculoInfo: {
-    fontSize: 14,
-    color: colors.text,
-    opacity: 0.7
+  veiculoInfo: { 
+    fontSize: 14, 
+    color: colors.text, 
+    opacity: 0.7 
   }
-=======
-  tipoRow: { flexDirection: "row", marginBottom: spacing.md },
-  tipoBtn: { flex: 1, padding: 12, alignItems: "center", borderRadius: radius.md, borderWidth: 1, borderColor: colors.border, marginHorizontal: 4 },
-  tipoBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  tipoBtnText: { color: colors.text, fontWeight: "bold" },
-  tipoBtnTextActive: { color: colors.textLight },
-  veiculoHeader: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
-  veiculoPlaca: { fontSize: 18, fontWeight: "bold", color: colors.secondary },
-  veiculoTipo: { fontSize: 12, color: colors.primary, fontWeight: "bold" },
-  veiculoInfo: { fontSize: 14, color: colors.text, opacity: 0.7 }
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 });

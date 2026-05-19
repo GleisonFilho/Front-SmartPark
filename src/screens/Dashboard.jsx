@@ -4,25 +4,20 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, normalizeBoolean } from "../services/api";
 import { globalStyles } from "../styles/globalStyles";
 import { colors, spacing, radius } from "../styles/theme";
-<<<<<<< HEAD
 import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard({ navigation }) {
   const { user } = useAuth();
-=======
-
-export default function Dashboard({ navigation }) {
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
   const [stats, setStats] = useState({ total: 0, ocupadas: 0, livres: 0 });
   const [ativas, setAtivas] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const insets = useSafeAreaInsets();
 
-  const carregarDados = async () => {
+  const carregarDados = useCallback(async () => {
     try {
+      // Se for USER, busca apenas as dele. Se for OPERADOR, traz as ativas globais.
       const [vagasRes, estadiasRes] = await Promise.all([
         api.get("/vagas"),
-<<<<<<< HEAD
         user?.role === 'USER' ? api.get("/estadias/minhas") : api.get("/estadias/ativas")
       ]);
 
@@ -42,17 +37,6 @@ export default function Dashboard({ navigation }) {
           livres: vagas.filter(v => !v.ocupada).length
         });
       }
-=======
-        api.get("/estadias/ativas")
-      ]);
-
-      const vagas = vagasRes.data.map(v => ({ ...v, ocupada: normalizeBoolean(v.ocupada) }));
-      setStats({
-        total: vagas.length,
-        ocupadas: vagas.filter(v => v.ocupada).length,
-        livres: vagas.filter(v => !v.ocupada).length
-      });
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
       const estadias = (estadiasRes.data?.content ?? estadiasRes.data ?? []).map(e => ({
         ...e,
@@ -63,52 +47,36 @@ export default function Dashboard({ navigation }) {
     } catch (err) {
       console.log("Erro ao carregar dashboard", err);
     }
-  };
+  }, [user]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     carregarDados().then(() => setRefreshing(false));
-<<<<<<< HEAD
   }, [carregarDados]);
 
   useEffect(() => {
     if (user) {
       carregarDados();
     }
-  }, [user]);
+  }, [user, carregarDados]);
 
   const renderHeader = () => (
     <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
       <Text style={globalStyles.headerTitle}>Olá, {user?.nome?.split(' ')[0] || 'Usuário'}</Text>
-      <Text style={{color: colors.muted, fontSize: 14}}>
+      <Text style={{ color: colors.muted, fontSize: 14 }}>
         {user?.role === 'OPERADOR' ? "Painel de Controle Local" : "Minhas Reservas e Estadias"}
       </Text>
     </View>
   );
-=======
-  }, []);
-
-  useEffect(() => {
-    carregarDados();
-  }, []);
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <StatusBar barStyle="light-content" />
-<<<<<<< HEAD
       {renderHeader()}
-=======
-      <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
-        <Text style={globalStyles.headerTitle}>SmartPark</Text>
-        <Text style={{color: colors.muted, fontSize: 14}}>Gerenciamento de Estacionamento</Text>
-      </View>
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
       <View style={globalStyles.container}>
         <View style={styles.statsRow}>
           <View style={[styles.statCard, { backgroundColor: colors.primary }]}>
-<<<<<<< HEAD
             <Text style={styles.statLabel}>{user?.role === 'USER' ? 'Veículos' : 'Total'}</Text>
             <Text style={styles.statValue}>{stats.total}</Text>
           </View>
@@ -127,28 +95,11 @@ export default function Dashboard({ navigation }) {
         <Text style={styles.sectionTitle}>
           {user?.role === 'USER' ? "Minha Estadia Atual" : "Estadias Ativas no Pátio"}
         </Text>
-=======
-            <Text style={styles.statLabel}>Total</Text>
-            <Text style={styles.statValue}>{stats.total}</Text>
-          </View>
-          <View style={[styles.statCard, { backgroundColor: colors.danger }]}>
-            <Text style={styles.statLabel}>Ocupadas</Text>
-            <Text style={styles.statValue}>{stats.ocupadas}</Text>
-          </View>
-          <View style={[styles.statCard, { backgroundColor: colors.accent }]}>
-            <Text style={styles.statLabel}>Livres</Text>
-            <Text style={styles.statValue}>{stats.livres}</Text>
-          </View>
-        </View>
-
-        <Text style={styles.sectionTitle}>Estadias Ativas</Text>
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
         <FlatList
           data={ativas}
           keyExtractor={(item) => String(item.id)}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-<<<<<<< HEAD
           ListEmptyComponent={
             <Text style={styles.emptyText}>
               {user?.role === 'USER' ? "Você não possui estadias ativas." : "Nenhuma estadia ativa no momento."}
@@ -169,29 +120,12 @@ export default function Dashboard({ navigation }) {
               <Text style={styles.stayTime}>
                 Entrada: {item.entrada ? new Date(item.entrada).toLocaleTimeString() : '--:--'}
               </Text>
-=======
-          ListEmptyComponent={<Text style={styles.emptyText}>Nenhuma estadia ativa.</Text>}
-          renderItem={({ item }) => (
-            <TouchableOpacity 
-              style={globalStyles.card}
-              onPress={() => navigation.navigate("Checkout")}
-            >
-              <View style={styles.stayHeader}>
-                <Text style={styles.plateText}>{item.veiculo?.placa}</Text>
-                <View style={styles.vagaBadge}>
-                  <Text style={styles.vagaBadgeText}>{item.vaga?.codigo}</Text>
-                </View>
-              </View>
-              <Text style={styles.stayInfo}>{item.veiculo?.modelo} • {item.veiculo?.cor}</Text>
-              <Text style={styles.stayTime}>Entrada: {new Date(item.entrada).toLocaleTimeString()}</Text>
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
             </TouchableOpacity>
           )}
         />
       </View>
 
-<<<<<<< HEAD
-      {/* FAB CORRIGIDO E CENTRALIZADO */}
+      {/* FAB CORRIGIDO, ADAPTÁVEL E CUSTOMIZADO */}
       <TouchableOpacity 
         style={styles.fabCustom} 
         onPress={() => navigation.navigate(user?.role === 'USER' ? "Mapa" : "Checkin")}
@@ -199,20 +133,12 @@ export default function Dashboard({ navigation }) {
         <Text style={styles.fabText}>
           {user?.role === 'USER' ? "Reservar" : "+"}
         </Text>
-=======
-      <TouchableOpacity 
-        style={globalStyles.fab}
-        onPress={() => navigation.navigate("Checkin")}
-      >
-        <Text style={{color: '#fff', fontSize: 30}}>+</Text>
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
       </TouchableOpacity>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
   statsRow: { 
     flexDirection: "row", 
     justifyContent: "space-between", 
@@ -236,17 +162,16 @@ const styles = StyleSheet.create({
   stayTime: { fontSize: 12, color: colors.muted, marginTop: 4 },
   emptyText: { textAlign: "center", color: colors.muted, marginTop: spacing.xl },
   
-  // ESTILOS DO BOTÃO FAB
   fabCustom: {
     position: 'absolute',
     bottom: 30,
     right: 30,
     backgroundColor: colors.primary,
-    width: 85,               
+    width: 85,              
     height: 85,              
     borderRadius: 42.5,      
     justifyContent: 'center',
-    alignItems: 'center',     
+    alignItems: 'center',    
     elevation: 8,            
     shadowColor: "#000",     
     shadowOffset: { width: 0, height: 4 },
@@ -260,71 +185,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
-=======
-  statsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: spacing.lg,
-  },
-  statCard: {
-    flex: 1,
-    padding: spacing.md,
-    borderRadius: radius.md,
-    alignItems: "center",
-    marginHorizontal: 4,
-  },
-  statLabel: {
-    color: colors.textLight,
-    fontSize: 12,
-    opacity: 0.8,
-  },
-  statValue: {
-    color: colors.textLight,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: colors.text,
-    marginBottom: spacing.md,
-  },
-  stayHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: spacing.xs,
-  },
-  plateText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: colors.secondary,
-  },
-  vagaBadge: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 2,
-    borderRadius: radius.sm,
-  },
-  vagaBadgeText: {
-    color: colors.textLight,
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  stayInfo: {
-    fontSize: 14,
-    color: colors.text,
-    opacity: 0.7,
-  },
-  stayTime: {
-    fontSize: 12,
-    color: colors.muted,
-    marginTop: 4,
-  },
-  emptyText: {
-    textAlign: "center",
-    color: colors.muted,
-    marginTop: spacing.xl,
-  }
-});
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40

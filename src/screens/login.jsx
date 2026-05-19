@@ -3,24 +3,12 @@ import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView,
 import { globalStyles } from "../styles/globalStyles";
 import { useState } from "react";
 import { colors, spacing, radius } from "../styles/theme";
-<<<<<<< HEAD
-
-// Importamos o hook de autenticação
-import { useAuth } from "../context/AuthContext";
-=======
 import api from "../services/api";
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-<<<<<<< HEAD
-    
-    // Pegamos a função signIn e o estado de loading do contexto
-    const { signIn, loading } = useAuth();
-=======
     const [loading, setLoading] = useState(false);
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
     const handleLogin = async () => {
         if (!email || !senha) {
@@ -28,11 +16,6 @@ export default function Login({ navigation }) {
             return;
         }
 
-<<<<<<< HEAD
-        // Chamamos o login do contexto
-        // Note que não precisamos mais de navigation.navigate aqui!
-        await signIn(email, senha);
-=======
         setLoading(true);
         try {
             const response = await api.post("/auth/login", {
@@ -41,6 +24,7 @@ export default function Login({ navigation }) {
             });
 
             const { role } = response.data;
+            // Redireciona enviando o cargo (role) do usuário logado
             navigation.replace("Main", { role });
 
         } catch (error) {
@@ -51,7 +35,6 @@ export default function Login({ navigation }) {
         } finally {
             setLoading(false);
         }
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     };
 
     return (
@@ -70,6 +53,7 @@ export default function Login({ navigation }) {
                     <TextInput
                         style={styles.input}
                         placeholder="E-mail"
+                        placeholderTextColor={colors.muted}
                         value={email}
                         onChangeText={setEmail}
                         keyboardType="email-address"
@@ -79,6 +63,7 @@ export default function Login({ navigation }) {
                     <TextInput
                         style={styles.input}
                         placeholder="Senha"
+                        placeholderTextColor={colors.muted}
                         value={senha}
                         onChangeText={setSenha}
                         secureTextEntry
@@ -105,17 +90,11 @@ export default function Login({ navigation }) {
         </SafeAreaView>
     );
 }
-<<<<<<< HEAD
 
-// Os estilos (styles) permanecem exatamente os mesmos que você já tem.
-const styles = StyleSheet.create({
-    scrollContainer: { flexGrow: 1 },
-=======
 const styles = StyleSheet.create({
     scrollContainer: {
         flexGrow: 1,
     },
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     logoConteiner: {
         flex: 0.35,
         justifyContent: "flex-end",
@@ -124,11 +103,6 @@ const styles = StyleSheet.create({
         paddingTop: spacing.lg,
         paddingBottom: spacing.xl,
     },
-<<<<<<< HEAD
-    imgLogo: { width: 100, height: 100, borderRadius: 20, marginBottom: spacing.md },
-    logoTitle: { fontSize: 28, fontWeight: 'bold', color: colors.textLight },
-    logoSubtitle: { fontSize: 13, color: "rgba(255, 255, 255, 0.7)", marginTop: spacing.xs },
-=======
     imgLogo: {
         width: 100,
         height: 100,
@@ -145,23 +119,18 @@ const styles = StyleSheet.create({
         color: "rgba(255, 255, 255, 0.7)",
         marginTop: spacing.xs,
     },
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     inputConteiner: {
         flex: 0.65,
         paddingHorizontal: spacing.lg,
         paddingTop: spacing.xl,
         backgroundColor: colors.background,
     },
-<<<<<<< HEAD
-    loginTitle: { fontSize: 26, fontWeight: 'bold', color: colors.secondary, marginBottom: spacing.sm },
-=======
     loginTitle: {
         fontSize: 26,
         fontWeight: 'bold',
         color: colors.secondary,
         marginBottom: spacing.sm,
     },
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     input: {
         backgroundColor: colors.card,
         borderRadius: radius.md,
@@ -187,9 +156,4 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontWeight: 'bold',
     },
-<<<<<<< HEAD
 });
-=======
-});
-
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40

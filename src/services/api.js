@@ -1,39 +1,34 @@
 import axios from "axios";
-<<<<<<< HEAD
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BASE_URL = "https://estacionamento-rotativo-l65y.onrender.com";
 
-const api = axios.create({
-=======
-
-const BASE_URL = "https://estacionamento-rotativo-l65y.onrender.com"; 
-
 export const api = axios.create({
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
   baseURL: BASE_URL,
   timeout: 5000,
 });
 
-<<<<<<< HEAD
+// Interceptor para injetar automaticamente o token JWT em cada requisição
 api.interceptors.request.use(async (config) => {
-  const userStorage = await AsyncStorage.getItem('@SmartPark:user');
-  if (userStorage) {
-    const { token } = JSON.parse(userStorage);
-    config.headers.Authorization = `Bearer ${token}`;
+  try {
+    const userStorage = await AsyncStorage.getItem('@SmartPark:user');
+    if (userStorage) {
+      const { token } = JSON.parse(userStorage);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+  } catch (error) {
+    console.log("Erro ao recuperar token do AsyncStorage", error);
   }
   return config;
+}, (error) => {
+  return Promise.reject(error);
 });
 
-=======
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 export const normalizeBoolean = (value) => {
   if (typeof value === "boolean") return value;
   return String(value).toLowerCase() === "true";
 };
 
-<<<<<<< HEAD
 export default api;
-=======
-export default api;
->>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
