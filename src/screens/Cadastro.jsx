@@ -18,6 +18,7 @@ export default function Cadastro({ navigation }) {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [confirmaSenha, setConfirmaSenha] = useState("");
+    const [role, setRole] = useState("USER"); // Estado inicial como Cliente
     const [loading, setLoading] = useState(false);
 
     const handleCadastro = async () => {
@@ -33,7 +34,8 @@ export default function Cadastro({ navigation }) {
 
         setLoading(true);
         try {
-            await api.post("/auth/register", { email, senha });
+            // Agora enviamos o 'role' selecionado para o seu endpoint
+            await api.post("/auth/register", { email, senha, role });
 
             Alert.alert("Sucesso", "Conta criada com sucesso!", [
                 { text: "OK", onPress: () => navigation.replace("Login") }
@@ -69,6 +71,44 @@ export default function Cadastro({ navigation }) {
                     <Text style={styles.subtitle}>
                         Crie sua conta para acessar o SmartPark
                     </Text>
+
+                    {/* SELETOR DE PERFIL */}
+                    <Text style={styles.label}>Eu sou:</Text>
+                    <View style={styles.roleContainer}>
+                        <TouchableOpacity 
+                            style={[
+                                styles.roleButton, 
+                                role === "USER" && styles.roleButtonActive
+                            ]}
+                            onPress={() => setRole("USER")}
+                        >
+                            <Ionicons 
+                                name="person-outline" 
+                                size={20} 
+                                color={role === "USER" ? colors.textLight : colors.muted} 
+                            />
+                            <Text style={[styles.roleText, role === "USER" && styles.roleTextActive]}>
+                                Cliente
+                            </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={[
+                                styles.roleButton, 
+                                role === "OPERADOR" && styles.roleButtonActive
+                            ]}
+                            onPress={() => setRole("OPERADOR")}
+                        >
+                            <Ionicons 
+                                name="build-outline" 
+                                size={20} 
+                                color={role === "OPERADOR" ? colors.textLight : colors.muted} 
+                            />
+                            <Text style={[styles.roleText, role === "OPERADOR" && styles.roleTextActive]}>
+                                Operador
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
 
                     <TextInput
                         style={styles.input}
@@ -188,6 +228,43 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: colors.muted,
         marginBottom: spacing.lg,
+    },
+
+    /* SELETOR DE PERFIL */
+    label: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: colors.text,
+        marginBottom: spacing.sm,
+    },
+    roleContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: spacing.lg,
+    },
+    roleButton: {
+        flex: 0.48,
+        flexDirection: "row",
+        height: 48,
+        borderWidth: 1,
+        borderColor: colors.border,
+        borderRadius: radius.md,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: colors.background,
+    },
+    roleButtonActive: {
+        backgroundColor: colors.primary,
+        borderColor: colors.primary,
+    },
+    roleText: {
+        fontSize: 14,
+        color: colors.muted,
+        fontWeight: "bold",
+        marginLeft: spacing.xs,
+    },
+    roleTextActive: {
+        color: colors.textLight,
     },
 
     input: {

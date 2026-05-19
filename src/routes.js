@@ -29,7 +29,10 @@ const Stack = createStackNavigator();
 
 function TabNavigator() {
   const { user } = useAuth();
-  const role = user?.role;
+  // Normalização do Role para evitar erros de case-sensitive
+  const role = user?.role?.toUpperCase(); 
+
+  console.log("DEBUG - Renderizando Tabs para Role:", role);
 
   return (
     <Tab.Navigator
@@ -39,34 +42,26 @@ function TabNavigator() {
         tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
           backgroundColor: colors.card,
-          borderTopWidth: 0,
-          elevation: 10,
           height: 60,
           paddingBottom: 8
         },
         tabBarIcon: ({ focused, color }) => {
           let iconName;
-          if (route.name === 'Início' || route.name === 'Admin') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Mapa') {
-            iconName = focused ? 'map' : 'map-outline';
-          } else if (route.name === 'Vagas') {
-            iconName = focused ? 'pin' : 'pin-outline';
-          } else if (route.name === 'Veículos') {
-            iconName = focused ? 'car' : 'car-outline';
-          } else if (route.name === 'Sair') {
-            iconName = focused ? 'log-out' : 'log-out-outline';
-          }
+          if (route.name === 'Início' || route.name === 'Admin') iconName = focused ? 'home' : 'home-outline';
+          else if (route.name === 'Mapa') iconName = focused ? 'map' : 'map-outline';
+          else if (route.name === 'Vagas') iconName = focused ? 'pin' : 'pin-outline';
+          else if (route.name === 'Veículos') iconName = focused ? 'car' : 'car-outline';
+          else if (route.name === 'Sair') iconName = focused ? 'log-out' : 'log-out-outline';
           return <Ionicons name={iconName} size={22} color={color} />;
         }
       })}
     >
-      {/* 1. Visão do Administrador */}
+      {/* ADMINSTRADOR */}
       {role === 'ADM' && (
         <Tab.Screen name="Admin" component={AdminDashboard} />
       )}
 
-      {/* 2. Visão do Operador/Gerente */}
+      {/* OPERADOR - Agora com Dashboard próprio */}
       {role === 'OPERADOR' && (
         <>
           <Tab.Screen name="Início" component={Dashboard} />
@@ -75,7 +70,7 @@ function TabNavigator() {
         </>
       )}
 
-      {/* 3. Visão do Usuário/Cliente */}
+      {/* USUÁRIO COMUM */}
       {role === 'USER' && (
         <>
           <Tab.Screen name="Início" component={Dashboard} />
@@ -92,6 +87,7 @@ function TabNavigator() {
 
 export default function Routes() {
   const { signed, loading, user } = useAuth();
+  const role = user?.role?.toUpperCase(); // Normalização também no Stack principal
 
   if (loading) {
     return (
@@ -103,7 +99,10 @@ export default function Routes() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator 
+        screenOptions={{ headerShown: false }}
+        initialRouteName={!signed ? "Login" : "Main"} // Garante o ponto de entrada correto[cite: 1]
+      >
         {!signed ? (
           <>
             <Stack.Screen name='Login' component={Login}/>
@@ -111,18 +110,19 @@ export default function Routes() {
           </>
         ) : (
           <>
+            {/* O TabNavigator é a base para quem está logado */}
             <Stack.Screen name="Main" component={TabNavigator} />
             
-            {/* Telas auxiliares para OPERADOR */}
-            {user?.role === 'OPERADOR' && (
+            {/* Telas auxiliares (Stack) para OPERADOR - Corrigido para Case Insensitive */}
+            {role === 'OPERADOR' && (
               <>
                 <Stack.Screen name="Checkin" component={Checkin} />
                 <Stack.Screen name="Scanner" component={Scanner} />
               </>
             )}
             
-            {/* Telas auxiliares para ADM */}
-            {user?.role === 'ADM' && (
+            {/* Telas auxiliares (Stack) para ADM - Corrigido para Case Insensitive */}
+            {role === 'ADM' && (
               <Stack.Screen 
                 name="AdminCadastroEstacionamento" 
                 component={AdminCadastroEstacionamento} 

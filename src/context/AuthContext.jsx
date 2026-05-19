@@ -8,40 +8,35 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-    async function resetAndLoadData() {
-      // COMENTE as linhas abaixo após conseguir deslogar uma vez:
-      // await AsyncStorage.removeItem('@SmartPark:user'); 
-      // setUser(null);
-      
+  useEffect(() => {
+    async function loadStorageData() {
       const storageUser = await AsyncStorage.getItem('@SmartPark:user');
       if (storageUser) {
         setUser(JSON.parse(storageUser));
       }
       setLoading(false);
     }
-    resetAndLoadData();
+    loadStorageData();
   }, []);
 
   async function signIn(email, senha) {
     setLoading(true);
     try {
-      // Chamada para o seu backend atual
+      // Faz a chamada para o seu controlador Spring Boot
       const response = await api.post('/auth/login', { email, senha });
       
-      const { user: userData, token } = response.data;
+      // Como o seu AuthController retorna o DTO diretamente, pegamos o response.data
+      const userData = response.data;
 
-      // --- INJEÇÃO DE PERFIL PARA TESTE ---
-      // Forçamos o 'role' como OPERADOR para liberar as telas no routes.js
-      // Você pode alterar para 'ADM' ou 'USER' aqui para testar as outras visões.
-      const userComPerfilForçado = { 
-        ...userData, 
-        role: 'OPERADOR' 
+      // Montamos o objeto de usuário com o 'role' que vem do banco de dados
+      const data = {
+        id: userData.id,
+        email: userData.email,
+        nome: userData.nome || userData.email, 
+        role: userData.role, // Aqui ele captura 'OPERADOR', 'ADM' ou 'USER' do BD
+        token: userData.token || "" // Garante compatibilidade com o interceptor da API
       };
-
-      const data = { ...userComPerfilForçado, token };
       
-      // Salva o usuário com o perfil injetado no estado e no celular
       setUser(data);
       await AsyncStorage.setItem('@SmartPark:user', JSON.stringify(data));
       
@@ -55,7 +50,7 @@ useEffect(() => {
   }
 
   function signOut() {
-    // Limpa o armazenamento e reseta o estado para voltar ao Login
+    // Limpa o cache para que o routes.js redirecione para a tela de Login
     AsyncStorage.clear().then(() => setUser(null));
   }
 
