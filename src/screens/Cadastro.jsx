@@ -18,7 +18,10 @@ export default function Cadastro({ navigation }) {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [confirmaSenha, setConfirmaSenha] = useState("");
+<<<<<<< HEAD
     const [role, setRole] = useState("USER"); // Estado inicial como Cliente
+=======
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     const [loading, setLoading] = useState(false);
 
     const handleCadastro = async () => {
@@ -34,8 +37,12 @@ export default function Cadastro({ navigation }) {
 
         setLoading(true);
         try {
+<<<<<<< HEAD
             // Agora enviamos o 'role' selecionado para o seu endpoint
             await api.post("/auth/register", { email, senha, role });
+=======
+            await api.post("/auth/register", { email, senha });
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 
             Alert.alert("Sucesso", "Conta criada com sucesso!", [
                 { text: "OK", onPress: () => navigation.replace("Login") }
@@ -72,6 +79,7 @@ export default function Cadastro({ navigation }) {
                         Crie sua conta para acessar o SmartPark
                     </Text>
 
+<<<<<<< HEAD
                     {/* SELETOR DE PERFIL */}
                     <Text style={styles.label}>Eu sou:</Text>
                     <View style={styles.roleContainer}>
@@ -110,6 +118,8 @@ export default function Cadastro({ navigation }) {
                         </TouchableOpacity>
                     </View>
 
+=======
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
                     <TextInput
                         style={styles.input}
                         placeholder="E-mail"
@@ -230,6 +240,7 @@ const styles = StyleSheet.create({
         marginBottom: spacing.lg,
     },
 
+<<<<<<< HEAD
     /* SELETOR DE PERFIL */
     label: {
         fontSize: 16,
@@ -267,6 +278,8 @@ const styles = StyleSheet.create({
         color: colors.textLight,
     },
 
+=======
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     input: {
         backgroundColor: colors.background,
         borderRadius: radius.md,
@@ -303,4 +316,8 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontWeight: "bold",
     },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40

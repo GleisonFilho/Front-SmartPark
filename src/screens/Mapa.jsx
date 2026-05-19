@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, Dimensions, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+<<<<<<< HEAD
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
+=======
+import MapView, { Marker, Callout } from 'react-native-maps';
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 import * as Location from 'expo-location';
 import { colors, spacing, radius } from '../styles/theme';
 import api from '../services/api';
@@ -100,7 +104,11 @@ export default function Mapa({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <MapView
+<<<<<<< HEAD
         provider={PROVIDER_GOOGLE} 
+=======
+        ref={mapRef}
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
         style={styles.map}
         region={currentRegion}
         showsUserLocation={true}

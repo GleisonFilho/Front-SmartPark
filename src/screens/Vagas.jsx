@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
+<<<<<<< HEAD
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, RefreshControl, SafeAreaView, StatusBar } from "react-native";
+=======
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, RefreshControl, SafeAreaView } from "react-native";
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, normalizeBoolean } from "../services/api";
 import { globalStyles } from "../styles/globalStyles";
@@ -18,8 +22,12 @@ export default function Vagas() {
         ...v,
         ocupada: normalizeBoolean(v.ocupada)
       }));
+<<<<<<< HEAD
       // Ordena as vagas por código para facilitar a localização visual
       setVagas(normalizadas.sort((a, b) => a.codigo.localeCompare(b.codigo)));
+=======
+      setVagas(normalizadas);
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
     } catch (err) {
       console.log("Erro ao carregar vagas", err);
     }
@@ -33,11 +41,16 @@ export default function Vagas() {
   const cadastrarVaga = async () => {
     if (!codigo) return Alert.alert("Atenção", "Informe o código da vaga");
     try {
+<<<<<<< HEAD
       await api.post("/vagas", { codigo: codigo.toUpperCase().trim(), ocupada: false });
+=======
+      await api.post("/vagas", { codigo: codigo.toUpperCase() });
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
       Alert.alert("Sucesso", "Vaga cadastrada");
       setCodigo("");
       carregarVagas();
     } catch (err) {
+<<<<<<< HEAD
       Alert.alert("Erro", "Falha ao cadastrar vaga. Verifique se o código já existe.");
     }
   };
@@ -64,22 +77,37 @@ export default function Vagas() {
     );
   };
 
+=======
+      Alert.alert("Erro", "Falha ao cadastrar vaga");
+    }
+  };
+
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
   useEffect(() => {
     carregarVagas();
   }, []);
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
+<<<<<<< HEAD
       <StatusBar barStyle="light-content" />
       <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
         <Text style={globalStyles.headerTitle}>Gestão de Vagas</Text>
+=======
+      <View style={[globalStyles.header, { paddingTop: insets.top + spacing.md }]}>
+        <Text style={globalStyles.headerTitle}>Vagas</Text>
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
       </View>
 
       <View style={globalStyles.container}>
         <View style={styles.inputContainer}>
           <TextInput
             style={[globalStyles.input, { flex: 1, marginBottom: 0 }]}
+<<<<<<< HEAD
             placeholder="Novo Código (ex: B-05)"
+=======
+            placeholder="Código (ex: A-01)"
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
             value={codigo}
             onChangeText={setCodigo}
             autoCapitalize="characters"
@@ -96,6 +124,7 @@ export default function Vagas() {
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           columnWrapperStyle={styles.gridRow}
           renderItem={({ item }) => (
+<<<<<<< HEAD
             <TouchableOpacity 
               style={[styles.vagaItem, { backgroundColor: item.ocupada ? colors.danger : colors.accent }]}
               onLongPress={() => deletarVaga(item.id, item.codigo)} // Funcionalidade de exclusão
@@ -108,6 +137,14 @@ export default function Vagas() {
           ListEmptyComponent={<Text style={styles.emptyText}>Nenhuma vaga cadastrada.</Text>}
         />
         <Text style={styles.hintText}>Pressione e segure uma vaga para excluí-la.</Text>
+=======
+            <View style={[styles.vagaItem, { backgroundColor: item.ocupada ? colors.danger : colors.accent }]}>
+              <Text style={styles.vagaText}>{item.codigo}</Text>
+              <Text style={styles.vagaStatus}>{item.ocupada ? "Ocupada" : "Livre"}</Text>
+            </View>
+          )}
+        />
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
       </View>
     </SafeAreaView>
   );
@@ -126,7 +163,10 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     justifyContent: "center",
     marginLeft: spacing.sm,
+<<<<<<< HEAD
     elevation: 2,
+=======
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
   },
   gridRow: {
     justifyContent: "flex-start",
@@ -138,11 +178,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: '1.5%',
+<<<<<<< HEAD
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
+=======
+    elevation: 2,
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
   },
   vagaText: {
     color: colors.textLight,
@@ -154,6 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 4,
     opacity: 0.8,
+<<<<<<< HEAD
   },
   emptyText: {
     textAlign: "center",
@@ -166,5 +211,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontStyle: 'italic',
     marginTop: spacing.md,
+=======
+>>>>>>> 0726f64c57c1433dbfe11c155c9ab4433a111e40
   }
 });
